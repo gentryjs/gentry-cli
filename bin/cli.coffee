@@ -1,6 +1,6 @@
 path      = require 'path'
 min       = require 'minimist'
-gentry    = require 'gentry'  
+gentry    = require 'gentry'
 runner    = require 'gentry-runner-cli'
 
 #questions = require '../app/questions'
@@ -21,9 +21,9 @@ argv = min process.argv.slice(2)
 if argv._.length is 0 then return usage()
 
 else
-  
+
   try
-  
+
     generator = require "gentry-#{argv._[0]}"
     questions = generator.questions
 
