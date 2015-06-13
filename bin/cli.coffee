@@ -1,6 +1,6 @@
 path      = require 'path'
 min       = require 'minimist'
-gentry    = require 'gentry'  
+gentry    = require 'gentry'
 runner    = require 'gentry-runner-cli'
 
 #questions = require '../app/questions'
@@ -21,21 +21,17 @@ argv = min process.argv.slice(2)
 if argv._.length is 0 then return usage()
 
 else
-  
+
   try
-  
+
     generator = require "gentry-#{argv._[0]}"
     questions = generator.questions
 
     runner questions, (answers) ->
 
-      # just run actions
-      if !argv._[1]?
-        gentry.runActions questions, answers, ->
-          process.exit()
-
       # scaffold
-      else if argv._[1] is 'scaffold'
+      if !argv._[1]?
+
         dest = process.cwd() + "/#{answers.package.name}"
         gentry.autoScaffold
           answers: answers
@@ -44,6 +40,14 @@ else
         , ->
           process.exit()
 
+
+      # just actions
+      else if argv._[1] is '-actions'
+
+        gentry.runActions questions, answers, ->
+          process.exit()
+
+      # no args = usage
       else
         usage()
 
