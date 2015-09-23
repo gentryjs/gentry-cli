@@ -1,0 +1,27 @@
+{
+  "name": "foo",
+  "description": "bar",
+  "version": "0.0.1",
+  "homepage": "http://github.com/baz/foo",
+  "repository": "git://github.com/baz/foo.git",
+  "author": "sdsd",
+  "main": "./index.js",
+  "dependencies": {
+    "async": "*"
+  },
+  "devDependencies": {
+    "coffee-script": "*"
+  },
+  "scripts": {
+    "test": "NODE_ENV=testing mocha --recursive --reporter spec --compilers coffee:coffee-script/register ./server/test"
+  },
+  "engines": {
+    "node": ">= 0.4.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://github.com/baz/foo/raw/master/LICENSE"
+    }
+  ]
+}

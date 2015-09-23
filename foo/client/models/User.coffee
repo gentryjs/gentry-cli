@@ -1,0 +1,20 @@
+{model} = require 'fission'
+
+module.exports = model
+  urlRoot: '/v1/users'
+  props:
+    id: 'string'
+    fbid: 'string'
+    image: 'string'
+    age: 'number'
+    location: 'string'
+    bio: 'string'
+    name: 'string'
+    gender: 'string'
+    timezone: 'string'
+    locale: 'string'
+    verified: 'boolean'
+    first_name: 'string'
+    last_name: 'string'
+    lastModified: 'date'
+    created: 'date'

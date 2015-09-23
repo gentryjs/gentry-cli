@@ -33,6 +33,9 @@ else
       if !argv._[1]?
 
         dest = process.cwd() + "/#{answers.package.name}"
+
+        console.log "auto scaffold -"
+        console.log dest
         gentry.autoScaffold
           answers: answers
           templateDir: generator.templateDir
