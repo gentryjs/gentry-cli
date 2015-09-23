@@ -23,8 +23,8 @@ try
 
   runner questions, (answers) ->
     # just actions
-    if argv._[1] is '-actions'
-      gentry.runActions questions, answers, ->
+    if argv.actions
+      return gentry.runActions questions, answers, ->
         process.exit()
 
     # full scaffold
