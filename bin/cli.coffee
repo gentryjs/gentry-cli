@@ -1,6 +1,8 @@
 min = require 'minimist'
 gentry = require 'gentry'
 runner = require 'gentry-runner-cli'
+jsonfile = require 'jsonfile'
+async = require 'async'
 
 usage = ->
   console.log """
@@ -21,23 +23,44 @@ try
   generator = require "gentry-#{generatorName}"
   questions = generator.questions
 
-  runner questions, (answers) ->
-    # just actions
-    if argv.actions
-      return gentry.runActions questions, answers, ->
-        process.exit()
-
-    # full scaffold
-    dest = process.cwd() + "/#{answers.package.name}"
-
-    console.log "auto scaffold -"
-    console.log dest
-    gentry.autoScaffold
-      answers: answers
-      templateDir: generator.templateDir
-      dest: dest
-    , ->
+  # only run the actions
+  if argv.actions
+    return gentry.runActions questions, answers, ->
       process.exit()
+
+  # existing project, pass commands to generator
+  if argv._.length isnt 1
+    argv._.shift()
+    src = "#{process.cwd()}/gentry.json"
+    return jsonfile.readFile src, (err, config) ->
+      return console.error err if err?
+      generator.commands? argv, config
+
+  # full scaffold
+  runner questions, (answers) ->
+    dest = "#{process.cwd()}/#{answers.package.name}"
+    console.log """
+    auto scaffold -
+    #{dest}
+    """
+
+    scaffold = (cb) ->
+      gentry.autoScaffold
+        answers: answers
+        templateDir: generator.templateDir
+        dest: dest
+      , cb
+
+    saveAnswers = (cb) ->
+      file = "#{dest}/gentry.json"
+      jsonfile.spaces = 2
+      jsonfile.writeFile file, answers, cb
+
+    async.series [
+      scaffold,
+      saveAnswers
+    ], (err) ->
+      console.error err if err?
 
 catch e
   if e.code = 'MODULE_NOT_FOUND'

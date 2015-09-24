@@ -7,8 +7,10 @@
   "author": "Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
   "main": "./index.js",
   "dependencies": {
+    "async": "^1.4.2",
     "coffee-script": "*",
     "gentry-runner-cli": "0.0.2",
+    "jsonfile": "^2.2.2",
     "minimist": "^1.1.0"
   },
   "devDependencies": {
