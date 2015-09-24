@@ -63,7 +63,7 @@ try
       console.error err if err?
 
 catch e
-  if e.code = 'MODULE_NOT_FOUND'
+  if e.message is "Cannot find module 'gentry-#{generatorName}'"
     return console.log """
     Generator #{generatorName} not installed, try:
     $ npm install -g gentry-#{generatorName}
