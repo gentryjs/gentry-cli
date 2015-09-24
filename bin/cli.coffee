@@ -40,7 +40,9 @@ try
       process.exit()
 
 catch e
-  console.log e
-  console.log "Generator '#{generatorName}' not installed, try:"
-  console.log "$ npm install -g gentry-#{generatorName}"
-  process.exit()
+  if e.code = 'MODULE_NOT_FOUND'
+    return console.log """
+    Generator #{generatorName} not installed, try:
+    $ npm install -g gentry-#{generatorName}
+    """
+  return console.log e
