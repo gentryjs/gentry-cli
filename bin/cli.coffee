@@ -28,16 +28,23 @@ try
         process.exit()
 
     # full scaffold
-    dest = process.cwd() + "/#{answers.package.name}"
+    if argv._.length is 1
+      dest = "#{process.cwd()}/#{answers.package.name}"
+      console.log """
+      auto scaffold -
+      #{dest}
+      """
 
-    console.log "auto scaffold -"
-    console.log dest
-    gentry.autoScaffold
-      answers: answers
-      templateDir: generator.templateDir
-      dest: dest
-    , ->
-      process.exit()
+      return gentry.autoScaffold
+        answers: answers
+        templateDir: generator.templateDir
+        dest: dest
+      , ->
+        process.exit()
+
+    # pass additional commands to generator
+    argv._.shift()
+    generator.commands? argv
 
 catch e
   if e.code = 'MODULE_NOT_FOUND'
