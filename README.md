@@ -5,8 +5,8 @@
 ## Information
 
 <table>
-<tr> 
-<td>Package</td><td>APPNAME</td>
+<tr>
+<td>Package</td><td>gentry-cli</td>
 </tr>
 <tr>
 <td>Description</td>
