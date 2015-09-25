@@ -21,7 +21,7 @@ if argv._.length is 0 then return usage()
 
 try
   generator = require "gentry-#{generatorName}"
-  questions = generator.questions
+  questions = generator.scaffold.questions
 
   # only run the actions
   if argv.actions
@@ -47,7 +47,7 @@ try
     scaffold = (cb) ->
       gentry.autoScaffold
         answers: answers
-        templateDir: generator.templateDir
+        templateDir: generator.scaffold.templateDir
         dest: dest
       , cb
 
