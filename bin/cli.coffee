@@ -1,8 +1,9 @@
 min = require 'minimist'
 gentry = require 'gentry'
-runner = require 'gentry-runner-cli'
 jsonfile = require 'jsonfile'
 async = require 'async'
+
+wisdom = require '../lib/wisdom'
 
 usage = ->
   console.log """
@@ -37,7 +38,7 @@ try
       generator.commands? argv, config
 
   # full scaffold
-  runner questions, (answers) ->
+  wisdom questions, (answers) ->
     dest = "#{process.cwd()}/#{answers.package.name}"
     console.log """
     auto scaffold -

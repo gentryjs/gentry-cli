@@ -9,7 +9,7 @@
   "dependencies": {
     "async": "^1.4.2",
     "coffee-script": "*",
-    "gentry-runner-cli": "0.0.2",
+    "inquirer": "^0.10.1",
     "jsonfile": "^2.2.2",
     "minimist": "^1.1.0"
   },
