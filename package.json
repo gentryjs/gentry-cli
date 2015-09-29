@@ -2,35 +2,36 @@
   "name": "gentry-cli",
   "description": "cli for gentry",
   "version": "0.0.6",
-  "homepage": "http://github.com/wearefractal/APPNAME",
-  "repository": "git://github.com/wearefractal/APPNAME.git",
   "author": "Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
-  "main": "./index.js",
+  "bin": {
+    "gen": "bin/index.js"
+  },
   "dependencies": {
-    "async": "^1.4.2",
-    "coffee-script": "*",
+    "async": "1.4.2",
+    "coffee-script": "1.10.0",
+    "gentry-runner-cli": "0.0.2",
     "inquirer": "^0.10.1",
-    "jsonfile": "^2.2.2",
-    "minimist": "^1.1.0"
+    "jsonfile": "2.2.2",
+    "minimist": "1.2.0"
   },
   "devDependencies": {
-    "mocha": "*",
-    "should": "*"
-  },
-  "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register"
+    "mocha": "2.3.3",
+    "should": "7.1.0"
   },
   "engines": {
     "node": ">= 0.4.0"
   },
+  "homepage": "http://github.com/wearefractal/APPNAME",
   "licenses": [
     {
       "type": "MIT",
       "url": "http://github.com/wearefractal/APPNAME/raw/master/LICENSE"
     }
   ],
+  "main": "./index.js",
   "preferGlobal": "true",
-  "bin": {
-    "gen": "bin/index.js"
+  "repository": "git://github.com/wearefractal/APPNAME.git",
+  "scripts": {
+    "test": "mocha --compilers coffee:coffee-script/register"
   }
 }
