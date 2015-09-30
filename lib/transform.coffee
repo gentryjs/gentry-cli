@@ -1,5 +1,6 @@
  module.exports = (question, details) ->
-  type = typeof details.input.type()
+  tmp = details.input.type
+  type = if tmp[0]? then 'object' else typeof tmp()
 
   options = details.input.enum
 
