@@ -1,7 +1,7 @@
-min = require 'minimist'
+fs = require 'fs'
+
 gentry = require 'gentry'
-jsonfile = require 'jsonfile'
-async = require 'async'
+min = require 'minimist'
 
 wisdom = require '../lib/wisdom'
 
@@ -21,52 +21,42 @@ generatorName = argv._[0]
 if argv._.length is 0 then return usage()
 
 try
-  generator = require "gentry-#{generatorName}"
-  questions = generator.scaffold.questions
-
-  # only run the actions
-  if argv.actions
-    return gentry.runActions questions, answers, ->
-      process.exit()
-
-  # existing project, pass commands to generator
-  if argv._.length isnt 1
-    argv._.shift()
-    src = "#{process.cwd()}/gentry.json"
-    return jsonfile.readFile src, (err, config) ->
-      return console.error err if err?
-      generator.commands? argv, config
-
-  # full scaffold
-  wisdom questions, (answers) ->
-    dest = "#{process.cwd()}/#{answers.package.name}"
-    console.log """
-    auto scaffold -
-    #{dest}
-    """
-
-    scaffold = (cb) ->
-      gentry.autoScaffold
-        answers: answers
-        templateDir: generator.scaffold.templateDir
-        dest: dest
-      , cb
-
-    saveAnswers = (cb) ->
-      file = "#{dest}/gentry.json"
-      jsonfile.spaces = 2
-      jsonfile.writeFile file, answers, cb
-
-    async.series [
-      scaffold,
-      saveAnswers
-    ], (err) ->
-      console.error err if err?
+  require.resolve "gentry-#{generatorName}"
 
 catch e
-  if e.message is "Cannot find module 'gentry-#{generatorName}'"
-    return console.log """
+  if e.code is 'MODULE_NOT_FOUND' then return console.log """
     Generator #{generatorName} not installed, try:
     $ npm install -g gentry-#{generatorName}
     """
-  return console.log e
+
+generator = require "gentry-#{generatorName}"
+
+questions = generator.scaffold.questions
+
+# only run the actions
+if argv.actions
+  return gentry.runActions questions, answers, ->
+    process.exit()
+
+# existing project, pass commands to generator
+if argv._.length isnt 1
+  argv._.shift()
+  return generator.commands? argv,
+    JSON.parse fs.readFileSync process.cwd() + 'gentry.json', 'utf8'
+
+# full scaffold
+wisdom questions, (answers) ->
+  dest = "#{process.cwd()}/#{answers.package.name}"
+  console.log """
+  auto scaffold -
+  #{dest}
+  """
+
+  gentry.autoScaffold
+    answers: answers
+    templateDir: generator.scaffold.templateDir
+    dest: dest
+  , (err) ->
+    throw err if err?
+    file = dest + '/gentry.json'
+    fs.writeFileSync file, JSON.stringify answers, null, 2

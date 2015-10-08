@@ -1,21 +1,19 @@
+_ = require 'lodash'
 inquirer = require 'inquirer'
 packageQuestions = require './packageQuestions'
-transform = require './transform'
+
+getType = (type, hasEnum) ->
+  return 'confirm' if type is Boolean
+  return 'checkbox' if type is Array or Array.isArray type
+  if hasEnum then 'list' else 'input'
+
+transform = (details, question) ->
+  name: question
+  message: details.prompt
+  type: getType details.input.type, details.input.enum?
+  choices: details.input.enum
 
 module.exports = (questions, done) ->
-  pkgQuestion = []
-  generatorQuestion = []
-
-  iterate = (questions, arr) ->
-    for question, details of questions
-      transformed = transform(question, details)
-      arr.push transformed
-
-  iterate questions, generatorQuestion
-  iterate packageQuestions, pkgQuestion
-
-  inquirer.prompt pkgQuestion, (pkg) ->
-    inquirer.prompt generatorQuestion, (answers) ->
-      done answers =
-        package: pkg
-        answers: answers
+  inquirer.prompt _.map(packageQuestions, transform), (pkg) ->
+    inquirer.prompt _.map(questions, transform), (answers) ->
+      done {package: pkg, answers}
