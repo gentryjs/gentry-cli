@@ -20,15 +20,11 @@
 
 ## Usage
 
-```coffee-script
-NOTHING HERE YET
-```
-
 ## LICENSE
 
 (MIT License)
 
-Copyright (c) 2013 Fractal <contact@wearefractal.com>
+Copyright (c) 2015 Fractal <contact@wearefractal.com>
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
